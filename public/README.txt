@@ -1,0 +1,1 @@
+This project is generated for Travel Journal. Deploy with Vercel or run locally with npm install && npm run dev
