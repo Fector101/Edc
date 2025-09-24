@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export default function Modal({ children, onClose }) {
   return (
@@ -8,5 +8,5 @@ export default function Modal({ children, onClose }) {
         {children}
       </div>
     </div>
-  );
+  )
 }
