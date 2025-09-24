@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* small custom tweaks */
+/* small helper */
 .line-clamp-3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
 body { @apply bg-sky-50 text-slate-800; }
