@@ -1,14 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import EntryPage from "./pages/EntryPage";
+//import Home from "./pages/Home";
+//import EntryPage from "./pages/EntryPage";
 
 import React, { useState, useEffect } from "react";
 import { loadEntries, saveEntries } from "./lib/storage";
 
 export default function App() {
   const [entries, setEntries] = useState([]);
-  const [view, setView] = useState({ name: "home" }); // or {name:'entry', id}
-
+  
   useEffect(() => {
     setEntries(loadEntries());
   }, []);
@@ -33,11 +32,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen p-6">
-        <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/entry/:id" element={<EntryPage />} />
-      </Routes>
-      
+       Hello 
     </div>
   );
 }
