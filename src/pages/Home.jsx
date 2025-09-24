@@ -52,8 +52,7 @@ function CreateForm({ onSave, onCancel }) {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [notes, setNotes] = useState("");
-  const [rating, setRating] = useState("");
-
+  
   return (
     <div>
       <h3 className="text-xl font-semibold mb-3">Add New Place</h3>
