@@ -60,7 +60,6 @@ function CreateForm({ onSave, onCancel }) {
       <div className="flex flex-col gap-2">
         <input value={title} onChange={e=>setTitle(e.target.value)} placeholder="City" className="border p-2 rounded" />
         <input value={subtitle} onChange={e=>setSubtitle(e.target.value)} placeholder="State" className="border p-2 rounded" />
-        <input value={rating} onChange={e=>setRating(e.target.value)} placeholder="Rating (e.g. 4.5/5)" className="border p-2 rounded" />
         <textarea value={notes} onChange={e=>setNotes(e.target.value)} placeholder="Thoughts..." className="border p-2 rounded" />
         <div className="flex justify-end gap-2 mt-2">
           <button onClick={onCancel} className="px-3 py-1">Cancel</button>
