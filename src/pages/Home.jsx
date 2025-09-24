@@ -1,75 +1,76 @@
-import { useState, useEffect } from "react";
-import EntryCard from "../components/EntryCard";
+import React, { useState } from "react";
+import EntryList from "../components/EntryList";
+import Modal from "../components/Modal";
 
-export default function Home() {
-  const [entries, setEntries] = useState(() => {
-    const saved = localStorage.getItem("entries");
-    return saved ? JSON.parse(saved) : [];
+export default function Home({ entries, onOpenEntry, onAddEntry }) {
+  const [query, setQuery] = useState("");
+  const [showCreate, setShowCreate] = useState(false);
+  
+  const filtered = entries.filter(e => {
+    const q = query.trim().toLowerCase();
+    if (!q) return true;
+    return (e.title || "").toLowerCase().includes(q) || (e.subtitle || "").toLowerCase().includes(q);
   });
-  const [newEntry, setNewEntry] = useState({
-    title: "",
-    location: "",
-    rating: "",
-    date: "",
-  });
-
-  useEffect(() => {
-    localStorage.setItem("entries", JSON.stringify(entries));
-  }, [entries]);
-
-  function handleAddEntry(e) {
-    e.preventDefault();
-    if (!newEntry.title || !newEntry.location || !newEntry.rating) return;
-    setEntries([
-      ...entries,
-      { ...newEntry, id: Date.now().toString() },
-    ]);
-    setNewEntry({ title: "", location: "", rating: "", date: "" });
-  }
-
+  
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">My Travel Journal</h1>
+    <div className="max-w-4xl mx-auto">
+      <header className="text-center mb-6">
+        <h1 className="text-3xl font-extrabold">Travel Journal <span className="text-xl">🇳🇬</span></h1>
+        <p className="text-slate-600 mt-2">A personal collection of places you've visited. Add notes and photos.</p>
+      </header>
 
-      <form onSubmit={handleAddEntry} className="space-y-2 mb-6">
+      <div className="flex gap-3 justify-center mb-5">
         <input
-          type="text"
-          placeholder="Place title"
-          value={newEntry.title}
-          onChange={(e) => setNewEntry({ ...newEntry, title: e.target.value })}
-          className="w-full p-2 border rounded"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search through states or cities"
+          className="flex-1 max-w-lg px-3 py-2 border rounded-md"
         />
-        <input
-          type="text"
-          placeholder="Location"
-          value={newEntry.location}
-          onChange={(e) => setNewEntry({ ...newEntry, location: e.target.value })}
-          className="w-full p-2 border rounded"
-        />
-        <textarea
-          placeholder="Your experience..."
-          value={newEntry.rating}
-          onChange={(e) => setNewEntry({ ...newEntry, rating: e.target.value })}
-          className="w-full p-2 border rounded"
-        />
-        <input
-          type="date"
-          value={newEntry.date}
-          onChange={(e) => setNewEntry({ ...newEntry, date: e.target.value })}
-          className="w-full p-2 border rounded"
-        />
-        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          Add Entry
-        </button>
-      </form>
-
-      <div>
-        {entries.length === 0 ? (
-          <p className="text-gray-500">No entries yet.</p>
-        ) : (
-          entries.map((entry) => <EntryCard key={entry.id} entry={entry} />)
-        )}
+        <button onClick={() => setShowCreate(true)} className="bg-green-600 text-white px-4 rounded-md">Add new</button>
       </div>
+
+      <h3 className="bg-green-600 text-white px-4 py-2 rounded-md w-2/3 mx-auto text-center mb-4">Travel Notes</h3>
+
+      <EntryList entries={filtered} onOpenEntry={onOpenEntry} />
+
+      {showCreate && (
+        <Modal onClose={() => setShowCreate(false)}>
+          <CreateForm
+            onSave={(data) => {
+              onAddEntry(data);
+              setShowCreate(false);
+            }}
+            onCancel={() => setShowCreate(false)}
+          />
+        </Modal>
+      )}
     </div>
   );
+}
+
+function CreateForm({ onSave, onCancel }) {
+  const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [notes, setNotes] = useState("");
+  const [rating, setRating] = useState("");
+  
+  return (
+    <div>
+      <h3 className="text-xl font-semibold mb-3">Add New Place</h3>
+      <div className="flex flex-col gap-2">
+        <input value={title} onChange={e=>setTitle(e.target.value)} placeholder="City" className="border p-2 rounded" />
+        <input value={subtitle} onChange={e=>setSubtitle(e.target.value)} placeholder="State" className="border p-2 rounded" />
+        <textarea value={notes} onChange={e=>setNotes(e.target.value)} placeholder="Thoughts..." className="border p-2 rounded" />
+        <div className="flex justify-end gap-2 mt-2">
+          <button onClick={onCancel} className="px-3 py-1">Cancel</button>
+          <button
+            onClick={() => onSave({ title, subtitle, notes, rating, photos: [] })}
+            className="bg-indigo-600 text-white px-3 py-1 rounded"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  )
 }
