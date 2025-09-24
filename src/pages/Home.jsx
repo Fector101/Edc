@@ -26,10 +26,10 @@ export default function Home({ entries, onOpenEntry, onAddEntry }) {
           placeholder="Search through states or cities"
           className="flex-1 max-w-lg px-3 py-2 border rounded-md"
         />
-        <button onClick={() => setShowCreate(true)} className="bg-indigo-600 text-white px-4 rounded-md">Add new</button>
+        <button onClick={() => setShowCreate(true)} className="bg-green-600 text-white px-4 rounded-md">Add new</button>
       </div>
 
-      <h3 className="bg-indigo-600 text-white px-4 py-2 rounded-md w-2/3 mx-auto text-center mb-4">Travel Notes</h3>
+      <h3 className="bg-green-600 text-white px-4 py-2 rounded-md w-2/3 mx-auto text-center mb-4">Travel Notes</h3>
 
       <EntryList entries={filtered} onOpenEntry={onOpenEntry} />
 
